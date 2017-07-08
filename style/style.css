@@ -1,0 +1,83 @@
+.container {
+  width: 1000px;
+  margin: auto; }
+
+.header {
+  width: 1000px;
+  height: 125px;
+  margin-bottom: 10px;
+  background-color: #f4f4f4;
+  border-bottom: 1px solid #d6d6d6; }
+
+.month {
+  width: 933px;
+  height: 50px;
+  margin-bottom: 20px;
+  margin: auto; }
+  .month__button {
+    color: #454544;
+    height: 30px;
+    line-height: 30px;
+    background: 0 0;
+    border: 1px solid #CECECE;
+    cursor: pointer;
+    text-align: center;
+    float: left;
+    width: 46px; }
+    .month__button_prev {
+      -webkit-border-top-left-radius: 5px;
+      -webkit-border-bottom-left-radius: 5px;
+      -moz-border-radius-topleft: 5px;
+      -moz-border-radius-bottomleft: 5px;
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px; }
+      .month__button_prev::after {
+        content: "\25C0";
+        font-size: 30px; }
+    .month__button_next {
+      -webkit-border-top-right-radius: 5px;
+      -webkit-border-bottom-right-radius: 5px;
+      -moz-border-radius-topright: 5px;
+      -moz-border-radius-bottomright: 5px;
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px; }
+      .month__button_next::after {
+        content: "\25B6";
+        font-size: 30px; }
+  .month__now {
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    margin: auto 20px;
+    font-size: 25px; }
+
+.calendar {
+  width: 933px;
+  margin: auto; }
+  .calendar__day {
+    height: 21px;
+    width: 125px;
+    font: 12px/21px Arial;
+    color: #362d26;
+    text-align: left; }
+    .calendar__day_grey {
+      color: #8c8c8c; }
+  .calendar__todo-list {
+    height: 104px; }
+  .calendar_strong {
+    background-color: #f4f4f4; }
+  .calendar_marked {
+    background-color: #ddf0ff; }
+
+table {
+  border-collapse: collapse; }
+
+td {
+  border: 2px solid #f4f4f4;
+  padding: 3px; }
+
+td:hover {
+  background: #ddf0ff;
+  border: 2px solid #83c6fb; }
+
+/*# sourceMappingURL=style.css.map */
