@@ -3,11 +3,29 @@
   margin: auto; }
 
 .header {
+  position: relative;
   width: 1000px;
   height: 125px;
   margin-bottom: 10px;
   background-color: #f4f4f4;
   border-bottom: 1px solid #d6d6d6; }
+  .header__add-event {
+    color: #ffffff;
+    height: 30px;
+    line-height: 30px;
+    background: #006fca;
+    border: 1px solid #CECECE;
+    cursor: pointer;
+    text-align: center;
+    width: auto;
+    position: absolute;
+    top: 80px;
+    left: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px; }
 
 .month {
   width: 933px;
@@ -81,11 +99,15 @@ td:hover {
   border: 2px solid #83c6fb; }
 
 .add-event-form {
+  display: none;
   padding: 25px;
   width: 300px;
   border: 1px solid #d6d6d6;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  position: relative; }
+  position: absolute;
+  background: #ffffff;
+  top: 250px;
+  left: 500px; }
   .add-event-form__event-name {
     width: 290px;
     margin-bottom: 5px;

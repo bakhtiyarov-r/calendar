@@ -10,30 +10,33 @@
 <body>
   <div class="container">
   
-    <div class="header"></div> 
-	<div class="month"><div class="month__button month__button_prev"></div><div class="month__now"></div><div class="month__button month__button_next"></div></div>
+    <div class="header">
+      <div class="header__add-event">Добавить</div>
+    </div>
+
+	  <div class="month"><div class="month__button month__button_prev"></div><div class="month__now"></div><div class="month__button month__button_next"></div>
+    </div>
 	
     <div class="calendar"></div>
 
 
     <div class="add-event-form">
       
-      <button class="add-event-form__close">x</button>
-     
+      <button class="add-event-form__close">x</button>     
       
-      <form>
-        <input type="text" name="event-date" class="add-event-form__event-name" placeholder="ДД.ММ.ГГГГ" />
+        <form>
+          <input type="text" name="event-date" class="add-event-form__event-name" placeholder="ДД.ММ.ГГГГ" />
         
-        <input type="text" class="add-event-form__event-name" name="event-title" placeholder="Событие" >
+          <input type="text" class="add-event-form__event-name" name="event-title" placeholder="Событие" >
         
-        <input type="text" name="event-members" class="add-event-form__event-name" placeholder="Имена участников" />
-        <br><br><br>
-        <textarea name="event-description" class="add-event-form__event-name"  placeholder="Описание"  rows="8"></textarea>
+          <input type="text" name="event-members" class="add-event-form__event-name" placeholder="Имена участников" />
+          <br><br><br>
+          <textarea name="event-description" class="add-event-form__event-name"  placeholder="Описание"  rows="8"></textarea>
 
-        <input type="button" data-action="addEvent" value="Готово"/>
-        <input type="button" data-action="deleteEvent" value="Удалить"/>
+          <input type="button" data-action="addEvent" value="Готово"/>
+          <input type="button" data-action="deleteEvent" value="Удалить"/>
         
-      </form>
+        </form>
       
     </div>
 
@@ -168,7 +171,7 @@
             for (var j = 0; j < calendarDay.length; j++) {           
               if (calendarDay[j].innerHTML == +this.eventList[i].date[0]) {
               calendarDay[j].nextElementSibling.innerHTML = this.eventList[i].title + ',<br>' + this.eventList[i].members;
-              calendarDay[j].parentElement.classList.add('calendar_marked'); 
+              calendarDay[j].parentElement.classList.add('calendar_marked'); break;
               }
             } 
           }   
@@ -193,7 +196,17 @@
 
     };
 
+    // Открытие окна добавления события
+    var headerAddEvent = document.getElementsByClassName('header__add-event')[0];
+    headerAddEvent.onclick = function() {
+      addEventForm.style.display = 'block';
+    }
 
+    // скрытие окна добавления события
+    var addEventFormClose = document.getElementsByClassName('add-event-form__close')[0];
+    addEventFormClose.onclick = function() {
+      addEventForm.style.display = '';
+    }
 
 
     // добавление/удаление события календаре
@@ -203,6 +216,7 @@
       var action = target.getAttribute('data-action');
       if (action) {  
         eventObj[action]();
+        addEventForm.style.display = '';
       }
     }; 
 
