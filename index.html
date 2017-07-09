@@ -14,17 +14,18 @@
       <div class="header__add-event">Добавить</div>
     </div>
 
-	  <div class="month"><div class="month__button month__button_prev"></div><div class="month__now"></div><div class="month__button month__button_next"></div>
+	  <div class="month">
+      <div class="month__button month__button_prev"></div>
+      <div class="month__now"></div>
+      <div class="month__button month__button_next"></div>
     </div>
 	
     <div class="calendar"></div>
 
 
-    <div class="add-event-form">
-      
-      <button class="add-event-form__close">x</button>     
-      
-        <form>
+    <div class="add-event-form">      
+      <button class="add-event-form__close">x</button>        
+      <form>
           <input type="text" name="event-date" class="add-event-form__event-name" placeholder="ДД.ММ.ГГГГ" />
         
           <input type="text" class="add-event-form__event-name" name="event-title" placeholder="Событие" >
@@ -36,7 +37,7 @@
           <input type="button" data-action="addEvent" value="Готово"/>
           <input type="button" data-action="deleteEvent" value="Удалить"/>
         
-        </form>
+        </form>  
       
     </div>
 
@@ -72,16 +73,16 @@
       // * * * | 1  2  3  4
       for (var i = 0; i < getDay(d); i++) {	  
 	      dPrev.setDate(dPrev.getDate() - getDay(d));
-        table += '<td><div class="calendar__day calendar__day_grey">' + weekday[getDay(dPrev)] + ', ' + dPrev.getDate() + '</div><div class="calendar__todo-list"></div></td>';
+        table += '<td><span style="float:left; color: #8c8c8c;">' + weekday[getDay(dPrev)] + ', </span><div class="calendar__day-prev calendar__day_grey"> ' + dPrev.getDate() + '</div><div class="calendar__todo-list"></div></td>';
 		    dPrev.setDate(dPrev.getDate() + getDay(d) + 1);		
       }
 
       // ячейки календаря с датами и днями недели
       while (d.getMonth() == mon) {	 	  	
         if (dNow.getDate() == d.getDate() && dNow.getMonth() == d.getMonth() && dNow.getFullYear() == d.getFullYear()) {
-		      table += '<td class="calendar_strong"><div class="calendar__day">' + weekday[getDay(d)] + ', ' + d.getDate() + '</div><div class="calendar__todo-list"></div></td>';
+		      table += '<td class="calendar_strong"><span style="float:left; color: #362d26;">' + weekday[getDay(dPrev)] + ', </span><div class="calendar__day"> ' + d.getDate() + '</div><div class="calendar__todo-list"></div></td>';
 		    }  else {	    
-		      table += '<td><div class="calendar__day">' + weekday[getDay(d)] + ', ' + d.getDate() + '</div><div class="calendar__todo-list"></div></td>';
+		      table += '<td><span style="float:left; color: #362d26;">' + weekday[getDay(dPrev)] + ', </span><div class="calendar__day"> ' + d.getDate() + '</div><div class="calendar__todo-list"></div></td>';
         }		
 		    if (getDay(d) == 6) { // вс, последний день - перевод строки
           table += '</tr><tr>'; d.setDate(d.getDate() + 1); break;	  
@@ -105,7 +106,7 @@
       // добить таблицу ячейками с днями следующего месяца
       if (getDay(d) != 0) {
         for (var i = getDay(d); i < 7; i++) {
-          table += '<td><div class="calendar__day calendar__day_grey">' + d.getDate() + '</div><div class="calendar__todo-list"></div></td>';
+          table += '<td><div class="calendar__day-next calendar__day_grey">' + d.getDate() + '</div><div class="calendar__todo-list"></div></td>';
 		      d.setDate(d.getDate() + 1);
         }
       }	   

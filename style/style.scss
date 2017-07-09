@@ -109,7 +109,7 @@ $colorBaseGrey: #f4f4f4;
   width: 933px;
   margin: auto;
 	
-	&__day {
+	&__day, &__day-prev, &__day-next {
       height: 21px;
 	  width: 125px;
       font: 12px/21px Arial;

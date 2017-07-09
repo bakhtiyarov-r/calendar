@@ -72,13 +72,13 @@
 .calendar {
   width: 933px;
   margin: auto; }
-  .calendar__day {
+  .calendar__day, .calendar__day-prev, .calendar__day-next {
     height: 21px;
     width: 125px;
     font: 12px/21px Arial;
     color: #362d26;
     text-align: left; }
-    .calendar__day_grey {
+    .calendar__day_grey, .calendar__day-prev_grey, .calendar__day-next_grey {
       color: #8c8c8c; }
   .calendar__todo-list {
     height: 104px; }
@@ -125,4 +125,4 @@ td:hover {
     background: transparent;
     cursor: pointer; }
 
-
+/*# sourceMappingURL=style.css.map */
