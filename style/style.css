@@ -26,6 +26,8 @@
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px; }
+    .header__add-event:active {
+      border: none; }
 
 .month {
   width: 933px;
@@ -42,6 +44,8 @@
     text-align: center;
     float: left;
     width: 46px; }
+    .month__button:active {
+      border: none; }
     .month__button_prev {
       -webkit-border-top-left-radius: 5px;
       -webkit-border-bottom-left-radius: 5px;

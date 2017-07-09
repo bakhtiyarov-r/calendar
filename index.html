@@ -80,9 +80,9 @@
       // ячейки календаря с датами и днями недели
       while (d.getMonth() == mon) {	 	  	
         if (dNow.getDate() == d.getDate() && dNow.getMonth() == d.getMonth() && dNow.getFullYear() == d.getFullYear()) {
-		      table += '<td class="calendar_strong"><span style="float:left; color: #362d26;">' + weekday[getDay(dPrev)] + ', </span><div class="calendar__day"> ' + d.getDate() + '</div><div class="calendar__todo-list"></div></td>';
+		      table += '<td class="calendar_strong"><span style="float:left; color: #362d26;">' + weekday[getDay(d)] + ', </span><div class="calendar__day"> ' + d.getDate() + '</div><div class="calendar__todo-list"></div></td>';
 		    }  else {	    
-		      table += '<td><span style="float:left; color: #362d26;">' + weekday[getDay(dPrev)] + ', </span><div class="calendar__day"> ' + d.getDate() + '</div><div class="calendar__todo-list"></div></td>';
+		      table += '<td><span style="float:left; color: #362d26;">' + weekday[getDay(d)] + ', </span><div class="calendar__day"> ' + d.getDate() + '</div><div class="calendar__todo-list"></div></td>';
         }		
 		    if (getDay(d) == 6) { // вс, последний день - перевод строки
           table += '</tr><tr>'; d.setDate(d.getDate() + 1); break;	  
@@ -193,6 +193,10 @@
 
       deleteEvent: function() {// метод удаления события из календаря        
         alert( 'Удаляю' );         
+      },
+
+      openEvent: function() {// открытие события
+
       }
 
     };
@@ -210,7 +214,7 @@
     }
 
 
-    // добавление/удаление события календаре
+    // добавление/удаление события
     var addEventForm = document.getElementsByClassName('add-event-form')[0];
     addEventForm.onclick = function(e) {
       var target = e.target;
