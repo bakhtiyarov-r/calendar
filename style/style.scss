@@ -131,3 +131,33 @@ td:hover {
   background: #ddf0ff;	
   border: 2px solid #83c6fb;
 }
+
+.add-event-form {
+  padding: 25px;
+  width: 300px;
+  border: 1px solid ($colorBaseGrey - 30);
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  position: relative;
+
+  &__event-name{
+  	width: 290px;
+  	margin-bottom: 5px;
+
+  	box-shadow: inset 0 0 0 0 rgba(0,0,0,0.5);
+  }
+
+  &__close{
+  position: absolute;
+  font-size: 100%;
+  top: 0;
+  color: #454544;
+  right: 10px;
+  display: block;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  }
+
+}
