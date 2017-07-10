@@ -44,6 +44,7 @@
 	
   </div>
   <script>
+    'use strict';
     function createCalendar(id, year, month) {
 	
 	    var dNow = new Date();
@@ -153,13 +154,13 @@
     // объект событий
     var eventObj = {       
       eventList: [ // массив событий
-        {date: [12, 07, 2017], title: "День рождения", members: "Петр", description: "Д.Р у друга" 
+        {date: ['12', '07', '2017'], title: "День рождения", members: "Петр", description: "Д.Р у друга" 
         },      
-        {date: [19, 06, 2017], title: "Митинг", members: "В.П. и Д.М.", description: "Митинг на Болотной" 
+        {date: ['19', '06', '2017'], title: "Митинг", members: "В.П. и Д.М.", description: "Митинг на Болотной" 
         },      
-        {date: [23, 07, 2017], title: "Свадьба", members: "Иван и Мария", description: "Свадьба у друга" 
+        {date: ['23', '07', '2017'], title: "Свадьба", members: "Иван и Мария", description: "Свадьба у друга" 
         },      
-        {date: [29, 08, 2017], title: "Встреча выпускников", members: "сокурсники", description: "Встреча выпускников института" 
+        {date: ['29', '08', '2017'], title: "Встреча выпускников", members: "сокурсники", description: "Встреча выпускников института" 
         }
       ],
        
