@@ -119,9 +119,9 @@ td:hover {
   width: 300px;
   border: 1px solid #d6d6d6;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  position: absolute;
+  position: fixed;
   background: #ffffff;
-  top: 250px;
+  top: 150px;
   left: 500px; }
   .add-event-form__event-name, .created-event-form__event-name {
     width: 290px;

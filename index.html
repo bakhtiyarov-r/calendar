@@ -35,7 +35,7 @@
           <textarea name="event-description" class="add-event-form__event-name"  placeholder="Описание"  rows="8"></textarea>
 
           <input type="button" data-action="addEvent" value="Готово"/>
-          <input type="button" data-action="deleteEvent" value="Удалить"/>
+          <input type="button" data-action="deleteEvent" value="Отмена"/>
         
         </form>  
       
@@ -138,8 +138,32 @@
       // вывод события в календаре
       eventObj.outputEvent(d.getFullYear(), d.getMonth());  
 
+      // добавление события
+      var addEventForm = document.getElementsByClassName('add-event-form')[0];
+      addEventForm.onclick = function(e) {
+        var target = e.target;
+        var action = target.getAttribute('data-action');
+        if (action) {  
+          eventObj[action](d.getFullYear(), d.getMonth());
+          hideCover();
+          addEventForm.style.display = '';
+        }
+      }; 
 
-    }
+      // открытие события
+      var calendar = document.getElementsByClassName('calendar')[0];   
+      calendar.onclick = function(e) {
+        var target = e.target;
+        if (target.hasAttribute('href')) {
+          var dataId = target.getAttribute('data-id');
+          eventObj.getEvent(d.getFullYear(), d.getMonth(), dataId);
+          e.preventDefault();
+          showCover();     
+        }
+      };
+
+
+    };
 
 
 
@@ -180,23 +204,31 @@
         }
       },
 
-      addEvent: function() {// метод добавления события в календарь
+      addEvent: function(year, month) {// метод добавления события в календарь
         var eventDate = document.getElementsByName('event-date')[0].value;
         var eventDateRow = eventDate.split('.');
         var eventTitle = document.getElementsByName('event-title')[0].value;
         var eventMembers = document.getElementsByName('event-members')[0].value;
         var eventDescription = document.getElementsByName('event-description')[0].value;
         
-        this.eventList.push({date: eventDateRow , title: eventTitle, members: eventMembers, description: eventDescription});
+        this.eventList.push({id: this.eventList.length, date: eventDateRow , title: eventTitle, members: eventMembers, description: eventDescription});
 
-        createCalendar('calendar');              
+        createCalendar('calendar', year, month);              
       },
 
-      deleteEvent: function() {// метод удаления события из календаря        
-        alert( 'Удаляю' );         
+      deleteEvent: function(year, month, id) {// метод удаления события из календаря   
+        if (id) {
+          this.eventList.splice(id, 1);
+          for (var i = id; i < this.eventList.length; i++) {
+            this.eventList[i].id -= 1;
+          }       
+          createCalendar('calendar', year, month);
+        }     
+        
+
       },
 
-      getEvent: function(id) {// открытие события
+      getEvent: function(year, month, id) {// открытие события
 
         var div = document.createElement('div');
         div.innerHTML = '<button class="created-event-form__close">x</button><form><input type="text" name="event-date" class="add-event-form__event-name" placeholder="ДД.ММ.ГГГГ" autofocus="" value="' + this.eventList[id].date.join('.') + '"><input type="text" class="add-event-form__event-name" name="event-title" placeholder="Событие" value="' + this.eventList[id].title + '"><input type="text" name="event-members" class="add-event-form__event-name" placeholder="Имена участников" value="' + this.eventList[id].members + '"><br><br><br><textarea name="event-description" class="add-event-form__event-name" placeholder="Описание" rows="8">' + this.eventList[id].description + '</textarea><input type="button" data-action="addEvent" value="Готово"><input type="button" data-action="deleteEvent" value="Удалить"></form> ';
@@ -205,12 +237,23 @@
         div.style.display = 'block';
         
         document.body.appendChild(div);
-
+        
+        // закрытие формы при нажатии на  крестик
         var button = document.getElementsByClassName('created-event-form__close')[0];
         button.onclick = function() {
           hideCover();
           document.body.removeChild(div);
+        }
 
+        // нажатие на кнопку готово/удалить событие
+        div.onclick = function(e) {
+          var target = e.target;
+          var action = target.getAttribute('data-action');
+          if (action) {
+            eventObj[action](year, month, id);
+            hideCover();
+            document.body.removeChild(div);
+          }
         }
         
 
@@ -219,6 +262,7 @@
     };
 
     // Открытие окна добавления события
+    var addEventForm = document.getElementsByClassName('add-event-form')[0];
     var headerAddEvent = document.getElementsByClassName('header__add-event')[0];
     headerAddEvent.onclick = function() {
       showCover();
@@ -246,29 +290,8 @@
     }
 
 
-    // добавление события
-    var addEventForm = document.getElementsByClassName('add-event-form')[0];
-    addEventForm.onclick = function(e) {
-      var target = e.target;
-      var action = target.getAttribute('data-action');
-      if (action) {  
-        eventObj[action]();
-        hideCover();
-        addEventForm.style.display = '';
-      }
-    }; 
-
-    // открытие события
-    var calendar = document.getElementsByClassName('calendar')[0];    
-    calendar.onclick = function(e) {
-      var target = e.target;
-      if (target.hasAttribute('href')) {
-        var dataId = target.getAttribute('data-id');
-        eventObj.getEvent(dataId);
-        e.preventDefault();
-        showCover();     
-      }
-    }
+    
+    
 
     
     
