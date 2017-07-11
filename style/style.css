@@ -102,7 +102,18 @@ td:hover {
   background: #ddf0ff;
   border: 2px solid #83c6fb; }
 
-.add-event-form {
+.cover-div {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9000;
+  width: 100%;
+  height: 100%;
+  background-color: gray;
+  opacity: 0.3; }
+
+.add-event-form, .created-event-form {
+  z-index: 9999;
   display: none;
   padding: 25px;
   width: 300px;
@@ -112,11 +123,11 @@ td:hover {
   background: #ffffff;
   top: 250px;
   left: 500px; }
-  .add-event-form__event-name {
+  .add-event-form__event-name, .created-event-form__event-name {
     width: 290px;
     margin-bottom: 5px;
     box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0.5); }
-  .add-event-form__close {
+  .add-event-form__close, .created-event-form__close {
     position: absolute;
     font-size: 100%;
     top: 0;

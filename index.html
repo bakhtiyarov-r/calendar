@@ -26,7 +26,7 @@
     <div class="add-event-form">      
       <button class="add-event-form__close">x</button>        
       <form>
-          <input type="text" name="event-date" class="add-event-form__event-name" placeholder="ДД.ММ.ГГГГ" />
+          <input type="text" name="event-date" class="add-event-form__event-name" placeholder="ДД.ММ.ГГГГ" autofocus value=""/>
         
           <input type="text" class="add-event-form__event-name" name="event-title" placeholder="Событие" >
         
@@ -136,7 +136,7 @@
 	    elemNextMonth.onclick = getNextMonth;      
 
       // вывод события в календаре
-      eventObj.getEvent(d.getFullYear(), d.getMonth());  
+      eventObj.outputEvent(d.getFullYear(), d.getMonth());  
 
 
     }
@@ -154,17 +154,17 @@
     // объект событий
     var eventObj = {       
       eventList: [ // массив событий
-        {date: ['12', '07', '2017'], title: "День рождения", members: "Петр", description: "Д.Р у друга" 
+        {id: 0, date: ['12', '07', '2017'], title: "День рождения", members: "Петр", description: "Д.Р у друга" 
         },      
-        {date: ['19', '06', '2017'], title: "Митинг", members: "В.П. и Д.М.", description: "Митинг на Болотной" 
+        {id: 1, date: ['19', '06', '2017'], title: "Митинг", members: "В.П. и Д.М.", description: "Митинг на Болотной" 
         },      
-        {date: ['23', '07', '2017'], title: "Свадьба", members: "Иван и Мария", description: "Свадьба у друга" 
+        {id: 2, date: ['23', '07', '2017'], title: "Свадьба", members: "Иван и Мария", description: "Свадьба у друга" 
         },      
-        {date: ['29', '08', '2017'], title: "Встреча выпускников", members: "сокурсники", description: "Встреча выпускников института" 
+        {id: 3, date: ['29', '08', '2017'], title: "Встреча выпускников", members: "сокурсники", description: "Встреча выпускников института" 
         }
       ],
        
-      getEvent: function (year, month) {  // метод вывода события в календаре       
+      outputEvent: function (year, month) {  // метод вывода события в календаре       
         var calendarTodoList = document.getElementsByClassName('calendar__todo-list');
         var calendarDay = document.getElementsByClassName('calendar__day');
       
@@ -172,7 +172,7 @@
           if (this.eventList[i].date[2] == year && this.eventList[i].date[1] == month) { 
             for (var j = 0; j < calendarDay.length; j++) {           
               if (calendarDay[j].innerHTML == +this.eventList[i].date[0]) {
-              calendarDay[j].nextElementSibling.innerHTML = this.eventList[i].title + ',<br>' + this.eventList[i].members;
+              calendarDay[j].nextElementSibling.innerHTML = '<a href="#" data-id="' + this.eventList[i].id + '">' + this.eventList[i].title + ',<br>' + this.eventList[i].members + '</a>';
               calendarDay[j].parentElement.classList.add('calendar_marked'); break;
               }
             } 
@@ -196,7 +196,23 @@
         alert( 'Удаляю' );         
       },
 
-      openEvent: function() {// открытие события
+      getEvent: function(id) {// открытие события
+
+        var div = document.createElement('div');
+        div.innerHTML = '<button class="created-event-form__close">x</button><form><input type="text" name="event-date" class="add-event-form__event-name" placeholder="ДД.ММ.ГГГГ" autofocus="" value="' + this.eventList[id].date.join('.') + '"><input type="text" class="add-event-form__event-name" name="event-title" placeholder="Событие" value="' + this.eventList[id].title + '"><input type="text" name="event-members" class="add-event-form__event-name" placeholder="Имена участников" value="' + this.eventList[id].members + '"><br><br><br><textarea name="event-description" class="add-event-form__event-name" placeholder="Описание" rows="8">' + this.eventList[id].description + '</textarea><input type="button" data-action="addEvent" value="Готово"><input type="button" data-action="deleteEvent" value="Удалить"></form> ';
+
+        div.className = 'created-event-form';
+        div.style.display = 'block';
+        
+        document.body.appendChild(div);
+
+        var button = document.getElementsByClassName('created-event-form__close')[0];
+        button.onclick = function() {
+          hideCover();
+          document.body.removeChild(div);
+
+        }
+        
 
       }
 
@@ -205,37 +221,62 @@
     // Открытие окна добавления события
     var headerAddEvent = document.getElementsByClassName('header__add-event')[0];
     headerAddEvent.onclick = function() {
+      showCover();
       addEventForm.style.display = 'block';
     }
 
     // скрытие окна добавления события
     var addEventFormClose = document.getElementsByClassName('add-event-form__close')[0];
     addEventFormClose.onclick = function() {
+      hideCover();
       addEventForm.style.display = '';
+
     }
 
 
-    // добавление/удаление события
+    // полупрозрачный DIV, затеняющий всю страницу
+    function showCover() {
+      var coverDiv = document.createElement('div');
+      coverDiv.className = 'cover-div';
+      document.body.appendChild(coverDiv);
+    }
+
+    function hideCover() {
+      document.body.removeChild(document.getElementsByClassName('cover-div')[0]);
+    }
+
+
+    // добавление события
     var addEventForm = document.getElementsByClassName('add-event-form')[0];
     addEventForm.onclick = function(e) {
       var target = e.target;
       var action = target.getAttribute('data-action');
       if (action) {  
         eventObj[action]();
+        hideCover();
         addEventForm.style.display = '';
       }
     }; 
 
+    // открытие события
+    var calendar = document.getElementsByClassName('calendar')[0];    
+    calendar.onclick = function(e) {
+      var target = e.target;
+      if (target.hasAttribute('href')) {
+        var dataId = target.getAttribute('data-id');
+        eventObj.getEvent(dataId);
+        e.preventDefault();
+        showCover();     
+      }
+    }
 
     
     
     createCalendar('calendar'); 
 
-
-    
     
 
-      
+         
 
   </script>
 </body>
