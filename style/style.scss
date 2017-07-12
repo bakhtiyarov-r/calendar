@@ -128,7 +128,7 @@ $colorBaseGrey: #f4f4f4;
 	
     }
 	
-	&__todo-list {
+	&__todo-list, &__todo-list-prev, &__todo-list-next {
       height: 104px;
 
 	}

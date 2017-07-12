@@ -84,7 +84,7 @@
     text-align: left; }
     .calendar__day_grey, .calendar__day-prev_grey, .calendar__day-next_grey {
       color: #8c8c8c; }
-  .calendar__todo-list {
+  .calendar__todo-list, .calendar__todo-list-prev, .calendar__todo-list-next {
     height: 104px; }
   .calendar_strong {
     background-color: #f4f4f4; }

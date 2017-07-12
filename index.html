@@ -74,7 +74,7 @@
       // * * * | 1  2  3  4
       for (var i = 0; i < getDay(d); i++) {	  
 	      dPrev.setDate(dPrev.getDate() - getDay(d));
-        table += '<td><span style="float:left; color: #8c8c8c;">' + weekday[getDay(dPrev)] + ', </span><div class="calendar__day-prev calendar__day_grey"> ' + dPrev.getDate() + '</div><div class="calendar__todo-list"></div></td>';
+        table += '<td><span style="float:left; color: #8c8c8c;">' + weekday[getDay(dPrev)] + ', </span><div class="calendar__day-prev calendar__day_grey"> ' + dPrev.getDate() + '</div><div class="calendar__todo-list-prev"></div></td>';
 		    dPrev.setDate(dPrev.getDate() + getDay(d) + 1);		
       }
 
@@ -107,7 +107,7 @@
       // добить таблицу ячейками с днями следующего месяца
       if (getDay(d) != 0) {
         for (var i = getDay(d); i < 7; i++) {
-          table += '<td><div class="calendar__day-next calendar__day_grey">' + d.getDate() + '</div><div class="calendar__todo-list"></div></td>';
+          table += '<td><div class="calendar__day-next calendar__day_grey">' + d.getDate() + '</div><div class="calendar__todo-list-next"></div></td>';
 		      d.setDate(d.getDate() + 1);
         }
       }	   
@@ -138,7 +138,7 @@
       // вывод события в календаре
       eventObj.outputEvent(d.getFullYear(), d.getMonth());  
 
-      // добавление события
+      // клик на кнопку "добавить" событие
       var addEventForm = document.getElementsByClassName('add-event-form')[0];
       addEventForm.onclick = function(e) {
         var target = e.target;
@@ -150,7 +150,7 @@
         }
       }; 
 
-      // открытие события
+      // клик на название события (открытие события)
       var calendar = document.getElementsByClassName('calendar')[0];   
       calendar.onclick = function(e) {
         var target = e.target;
@@ -158,7 +158,7 @@
           var dataId = target.getAttribute('data-id');
           eventObj.getEvent(d.getFullYear(), d.getMonth(), dataId);
           e.preventDefault();               
-        } else if (target.className = 'calendar__todo-list'){ // быстрое добавление события на дате
+        } else if (target.className == 'calendar__todo-list'){ // клик на пустое поле даты для быстрого добавления события
             var date = target.previousElementSibling.innerHTML;
           eventObj.addQuickEvent(d.getFullYear(), d.getMonth(), date);
         }
@@ -205,7 +205,7 @@
         }
       },
 
-      addEvent: function(year, month) {// метод добавления события в календарь 
+      addEvent: function(year, month) {// метод добавления события в календарь при клике на кнопку "добавить"
         var eventDate = document.getElementsByName('event-date')[0].value;
         var eventDateRow = eventDate.split('.');
         var eventTitle = document.getElementsByName('event-title')[0].value;
@@ -217,10 +217,8 @@
       },
 
       addQuickEvent: function(year, month, date) {// быстрый метод добавления события в календарь при клике на дату
-        alert( year + ',' + month + ',' + date );
-
-        var div = document.createElement('div');
-        div.innerHTML = '<button class="created-event-form__close">x</button><form><input type="text" name="event-date" class="created-event-form__event-name" placeholder="ДД.ММ.ГГГГ" autofocus value="' + date + '.' + month + '.' + year + '"><input type="text" class="created-event-form__event-name" name="event-title" placeholder="Событие" ><input type="text" name="event-members" class="created-event-form__event-name" placeholder="Имена участников" ><br><br><br><textarea name="event-description" class="created-event-form__event-name" placeholder="Описание"  rows="8"></textarea><input type="button" data-action="addQuick" value="Готово"><input type="button" data-action="deleteEvent" value="Отмена"></form> ';
+        var div = document.createElement('div'); // создание формы
+        div.innerHTML = '<button class="created-event-form__close">x</button><form><input type="text" name="event-date" class="created-event-form__event-name" placeholder="ДД.ММ.ГГГГ" value="' + date + '.' + month + '.' + year + '"><input type="text" class="created-event-form__event-name" name="event-title" placeholder="Событие" autofocus><input type="text" name="event-members" class="created-event-form__event-name" placeholder="Имена участников" ><br><br><br><textarea name="event-description" class="created-event-form__event-name" placeholder="Описание"  rows="8"></textarea><input type="button" data-action="addQuick" value="Готово"><input type="button" data-action="deleteEvent" value="Отмена"></form> ';
 
         div.className = 'created-event-form';
         div.style.display = 'block';
@@ -260,18 +258,8 @@
             
       },
 
-      deleteEvent: function(year, month, id) {// метод удаления события из календаря       
-        if (id) {
-          this.eventList.splice(id, 1);
-          for (var i = id; i < this.eventList.length; i++) {
-            this.eventList[i].id -= 1;
-          }          
-          createCalendar('calendar', year, month);              
-        }    
-      },
-
       getEvent: function(year, month, id) {// просмотр деталей события
-        var div = document.createElement('div');
+        var div = document.createElement('div');  // создание формы
         div.innerHTML = '<button class="created-event-form__close">x</button><form><input type="text" name="event-date" class="created-event-form__event-name" placeholder="ДД.ММ.ГГГГ" autofocus value="' + this.eventList[id].date.join('.') + '"><input type="text" class="created-event-form__event-name" name="event-title" placeholder="Событие" value="' + this.eventList[id].title + '"><input type="text" name="event-members" class="created-event-form__event-name" placeholder="Имена участников" value="' + this.eventList[id].members + '"><br><br><br><textarea name="event-description" class="created-event-form__event-name" placeholder="Описание"  rows="8">' + this.eventList[id].description + '</textarea><input type="button" data-action="setEvent" value="Готово"><input type="button" data-action="deleteEvent" value="Удалить"></form> ';
 
         div.className = 'created-event-form';
@@ -298,7 +286,17 @@
         }
       },
 
-      setEvent: function(year, month, id) { // метод редактирования деталей события
+      deleteEvent: function(year, month, id) {// удаление события из календаря       
+        if (id) {
+          this.eventList.splice(id, 1);
+          for (var i = id; i < this.eventList.length; i++) {
+            this.eventList[i].id -= 1;
+          }          
+          createCalendar('calendar', year, month);              
+        }    
+      },
+
+      setEvent: function(year, month, id) { // редактирование деталей события
       	var eventDate = document.getElementsByClassName('created-event-form__event-name')[0].value;
         var eventDateRow = eventDate.split('.');
         var eventTitle = document.getElementsByClassName('created-event-form__event-name')[1].value;
