@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+
 <html>
 
 <head>
@@ -26,7 +26,7 @@
     <div class="add-event-form">      
       <button class="add-event-form__close">x</button>        
       <form>
-          <input type="text" name="event-date" class="add-event-form__event-name" placeholder="ДД.ММ.ГГГГ" autofocus />
+          <input type="date" name="event-date" class="add-event-form__event-name" placeholder="ДД.ММ.ГГГГ" autofocus />
         
           <input type="text" class="add-event-form__event-name" name="event-title" placeholder="Событие" >
         
@@ -179,13 +179,13 @@
     // создать объект событий
     var eventObj = {       
       eventList: [ // массив событий
-        {id: 0, date: ['12', '07', '2017'], title: "День рождения", members: "Петр", description: "Д.Р у друга" 
+        {id: 0, date: ['2017', '07', '12'], title: "День рождения", members: "Петр", description: "Д.Р у друга" 
         },      
-        {id: 1, date: ['19', '06', '2017'], title: "Митинг", members: "В.П. и Д.М.", description: "Митинг на Болотной" 
+        {id: 1, date: ['2017', '06', '19'], title: "Митинг", members: "В.П. и Д.М.", description: "Митинг на Болотной" 
         },      
-        {id: 2, date: ['23', '07', '2017'], title: "Свадьба", members: "Иван и Мария", description: "Свадьба у друга" 
+        {id: 2, date: ['2017', '07', '23'], title: "Свадьба", members: "Иван и Мария", description: "Свадьба у друга" 
         },      
-        {id: 3, date: ['29', '08', '2017'], title: "Встреча выпускников", members: "сокурсники", description: "Встреча выпускников института" 
+        {id: 3, date: ['2017', '08', '29'], title: "Встреча выпускников", members: "сокурсники", description: "Встреча выпускников института" 
         }
       ],
        
@@ -194,9 +194,9 @@
         var calendarDay = document.getElementsByClassName('calendar__day');
       
         for (var i = 0; i < this.eventList.length; i++) {
-          if (this.eventList[i].date[2] == year && this.eventList[i].date[1] == month) { 
+          if (this.eventList[i].date[0] == year && this.eventList[i].date[1] == month) { 
             for (var j = 0; j < calendarDay.length; j++) {           
-              if (calendarDay[j].innerHTML == +this.eventList[i].date[0]) {
+              if (calendarDay[j].innerHTML == +this.eventList[i].date[2]) {
               calendarDay[j].nextElementSibling.innerHTML += '<a href="#" data-id="' + this.eventList[i].id + '">' + this.eventList[i].title + ',<br></a>';
               calendarDay[j].parentElement.classList.add('calendar_marked'); break;
               }
@@ -207,7 +207,7 @@
 
       addEvent: function(year, month) {// метод добавления события в календарь при клике на кнопку "добавить"
         var eventDate = document.getElementsByName('event-date')[0].value;
-        var eventDateRow = eventDate.split('.');
+        var eventDateRow = eventDate.split('-');
         var eventTitle = document.getElementsByName('event-title')[0].value;
         var eventMembers = document.getElementsByName('event-members')[0].value;
         var eventDescription = document.getElementsByName('event-description')[0].value;
@@ -218,22 +218,25 @@
 
       addQuickEvent: function(year, month, date) {// быстрый метод добавления события в календарь при клике на дату
         var div = document.createElement('div'); // создание формы
-        div.innerHTML = '<button class="created-event-form__close">x</button><form><input type="text" name="event-date" class="created-event-form__event-name" placeholder="ДД.ММ.ГГГГ" value="' + date + '.' + month + '.' + year + '"><input type="text" class="created-event-form__event-name" name="event-title" placeholder="Событие" autofocus><input type="text" name="event-members" class="created-event-form__event-name" placeholder="Имена участников" ><br><br><br><textarea name="event-description" class="created-event-form__event-name" placeholder="Описание"  rows="8"></textarea><input type="button" data-action="addQuick" value="Готово"><input type="button" data-action="deleteEvent" value="Отмена"></form> ';
+        if (month < 10) {
+          month = '0' + month;
+        }
+        if (date < 10) {
+          date = '0' + date;
+        }
+        div.innerHTML = '<button class="created-event-form__close">x</button><form><input type="date" name="event-date" class="created-event-form__event-name" placeholder="ДД.ММ.ГГГГ" value="' + year + '-' + month + '-' + date + '"><input type="text" class="created-event-form__event-name" name="event-title" placeholder="Событие" autofocus><input type="text" name="event-members" class="created-event-form__event-name" placeholder="Имена участников" ><br><br><br><textarea name="event-description" class="created-event-form__event-name" placeholder="Описание"  rows="8"></textarea><input type="button" data-action="addQuick" value="Готово"><input type="button" data-action="deleteEvent" value="Отмена"></form> ';
 
         div.className = 'created-event-form';
         div.style.display = 'block';
         
         document.body.appendChild(div);
         showCover();
-
         // закрытие формы при нажатии на  крестик
         var button = document.getElementsByClassName('created-event-form__close')[0];
         button.onclick = function() {
           hideCover();
           document.body.removeChild(div);
         }
-
-
         // нажатие на кнопку готово/отмена событие
         div.onclick = function(e) {
           var target = e.target;
@@ -248,7 +251,7 @@
 
       addQuick: function(year, month) {
         var eventDate = document.getElementsByClassName('created-event-form__event-name')[0].value;;
-        var eventDateRow = eventDate.split('.');
+        var eventDateRow = eventDate.split('-');
         var eventTitle = document.getElementsByClassName('created-event-form__event-name')[1].value;
         var eventMembers = document.getElementsByClassName('created-event-form__event-name')[2].value;
         var eventDescription = document.getElementsByClassName('created-event-form__event-name')[3].value;
@@ -260,7 +263,7 @@
 
       getEvent: function(year, month, id) {// просмотр деталей события
         var div = document.createElement('div');  // создание формы
-        div.innerHTML = '<button class="created-event-form__close">x</button><form><input type="text" name="event-date" class="created-event-form__event-name" placeholder="ДД.ММ.ГГГГ" autofocus value="' + this.eventList[id].date.join('.') + '"><input type="text" class="created-event-form__event-name" name="event-title" placeholder="Событие" value="' + this.eventList[id].title + '"><input type="text" name="event-members" class="created-event-form__event-name" placeholder="Имена участников" value="' + this.eventList[id].members + '"><br><br><br><textarea name="event-description" class="created-event-form__event-name" placeholder="Описание"  rows="8">' + this.eventList[id].description + '</textarea><input type="button" data-action="setEvent" value="Готово"><input type="button" data-action="deleteEvent" value="Удалить"></form> ';
+        div.innerHTML = '<button class="created-event-form__close">x</button><form><input type="date" name="event-date" class="created-event-form__event-name" placeholder="ДД.ММ.ГГГГ" autofocus value="' + this.eventList[id].date.join('-') + '"><input type="text" class="created-event-form__event-name" name="event-title" placeholder="Событие" value="' + this.eventList[id].title + '"><input type="text" name="event-members" class="created-event-form__event-name" placeholder="Имена участников" value="' + this.eventList[id].members + '"><br><br><br><textarea name="event-description" class="created-event-form__event-name" placeholder="Описание"  rows="8">' + this.eventList[id].description + '</textarea><input type="button" data-action="setEvent" value="Готово"><input type="button" data-action="deleteEvent" value="Удалить"></form> ';
 
         div.className = 'created-event-form';
         div.style.display = 'block';
@@ -298,7 +301,7 @@
 
       setEvent: function(year, month, id) { // редактирование деталей события
       	var eventDate = document.getElementsByClassName('created-event-form__event-name')[0].value;
-        var eventDateRow = eventDate.split('.');
+        var eventDateRow = eventDate.split('-');
         var eventTitle = document.getElementsByClassName('created-event-form__event-name')[1].value;
         var eventMembers = document.getElementsByClassName('created-event-form__event-name')[2].value;
         var eventDescription = document.getElementsByClassName('created-event-form__event-name')[3].value;        
