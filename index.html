@@ -56,16 +56,16 @@
       // * * * | 1  2  3  4
       for (var i = 0; i < getDay(d); i++) {	  
 	      dPrev.setDate(dPrev.getDate() - getDay(d));
-        table += '<td><span style="float:left; color: #8c8c8c;">' + weekday[getDay(dPrev)] + ', </span><div class="calendar__day-prev calendar__day_grey"> ' + dPrev.getDate() + '</div><div class="calendar__todo-list-prev"></div></td>';
+        table += '<td><span style="float:left; color: #8c8c8c;">' + weekday[getDay(dPrev)] + ', </span><div class="calendar__day-prev calendar__day_grey">' + dPrev.getDate() + '</div><div class="calendar__todo-list-prev"></div></td>';
 		    dPrev.setDate(dPrev.getDate() + getDay(d) + 1);		
       }
 
       // ячейки календаря с датами и днями недели
       while (d.getMonth() == mon) {	 	  	
         if (dNow.getDate() == d.getDate() && dNow.getMonth() == d.getMonth() && dNow.getFullYear() == d.getFullYear()) {
-		      table += '<td class="calendar_strong"><span style="float:left; color: #362d26;">' + weekday[getDay(d)] + ', </span><div class="calendar__day"> ' + d.getDate() + '</div><div class="calendar__todo-list"></div></td>';
+		      table += '<td class="calendar_strong"><span style="float:left; color: #362d26;">' + weekday[getDay(d)] + ', </span><div class="calendar__day">' + d.getDate() + '</div><div class="calendar__todo-list"></div></td>';
 		    }  else {	    
-		      table += '<td><span style="float:left; color: #362d26;">' + weekday[getDay(d)] + ', </span><div class="calendar__day"> ' + d.getDate() + '</div><div class="calendar__todo-list"></div></td>';
+		      table += '<td><span style="float:left; color: #362d26;">' + weekday[getDay(d)] + ', </span><div class="calendar__day">' + d.getDate() + '</div><div class="calendar__todo-list"></div></td>';
         }		
 		    if (getDay(d) == 6) { // вс, последний день - перевод строки
           table += '</tr><tr>'; d.setDate(d.getDate() + 1); break;	  
