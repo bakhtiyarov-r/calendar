@@ -122,10 +122,10 @@
 
           // Открытие формы добавления события
     
-    var headerAddEvent = document.getElementsByClassName('header__add-event')[0];
-    headerAddEvent.onclick = function() {
-      controller.addEvent(d.getFullYear(), d.getMonth());
-    }
+      var headerAddEvent = document.getElementsByClassName('header__add-event')[0];
+      headerAddEvent.onclick = function() {
+        controller.addEvent(d.getFullYear(), d.getMonth());
+      }
 
       // клик на название события (открытие события)
       var calendar = document.getElementsByClassName('calendar')[0];   
@@ -137,7 +137,7 @@
           e.preventDefault();               
         } else if (target.className == 'calendar__todo-list'){ // клик на пустое поле даты для быстрого добавления события
             var date = target.previousElementSibling.innerHTML;
-          eventObj.addQuickEvent(d.getFullYear(), d.getMonth(), date);
+          controller.addQuickEvent(d.getFullYear(), d.getMonth(), date);
         }
       };      
      
@@ -164,9 +164,7 @@
         },      
         {id: 3, date: ['2017', '08', '29'], title: "Встреча выпускников", members: "сокурсники", description: "Встреча выпускников института" 
         }
-      ],
-       
-      
+      ],      
 
       addEvent: function(eventItem) {// добавление события в календарь
         this.eventList.push(eventItem);
@@ -181,61 +179,12 @@
         }    
       },
 
-      setEvent: function(id, eventItem) { // редактирование деталей события
-             
+      setEvent: function(id, eventItem) { // редактирование деталей события             
         this.eventList[id].date = eventItem.date;
         this.eventList[id].title = eventItem.title;
         this.eventList[id].members = eventItem.members;
         this.eventList[id].description = eventItem.description;        
-      },
-
-      addQuickEvent: function(year, month, date) {// быстрый метод добавления события в календарь при клике на дату
-        var div = document.createElement('div'); // создание формы
-        if (month < 10) {
-          month = '0' + month;
-        }
-        if (date < 10) {
-          date = '0' + date;
-        }
-        div.innerHTML = '<button class="created-event-form__close">x</button><form><input type="date" name="event-date" class="created-event-form__event-name" placeholder="ДД.ММ.ГГГГ" value="' + year + '-' + month + '-' + date + '"><input type="text" class="created-event-form__event-name" name="event-title" placeholder="Событие" autofocus><input type="text" name="event-members" class="created-event-form__event-name" placeholder="Имена участников" ><br><br><br><textarea name="event-description" class="created-event-form__event-name" placeholder="Описание"  rows="8"></textarea><input type="button" data-action="addQuick" value="Готово"><input type="button" data-action="deleteEvent" value="Отмена"></form> ';
-
-        div.className = 'created-event-form';
-        div.style.display = 'block';
-        
-        document.body.appendChild(div);
-        showCover();
-        // закрытие формы при нажатии на  крестик
-        var button = document.getElementsByClassName('created-event-form__close')[0];
-        button.onclick = function() {
-          hideCover();
-          document.body.removeChild(div);
-        }
-        // нажатие на кнопку готово/отмена событие
-        div.onclick = function(e) {
-          var target = e.target;
-          var action = target.getAttribute('data-action');
-          if (action) {
-            eventObj[action](year, month);  // action = addQuick / deleteEvent
-            hideCover();
-            document.body.removeChild(div);          
-          }
-        }
-      },
-
-      addQuick: function(year, month) {
-        var eventDate = document.getElementsByClassName('created-event-form__event-name')[0].value;;
-        var eventDateRow = eventDate.split('-');
-        var eventTitle = document.getElementsByClassName('created-event-form__event-name')[1].value;
-        var eventMembers = document.getElementsByClassName('created-event-form__event-name')[2].value;
-        var eventDescription = document.getElementsByClassName('created-event-form__event-name')[3].value;
-        
-        this.eventList.push({id: this.eventList.length, date: eventDateRow , title: eventTitle, members: eventMembers, description: eventDescription});
-        createCalendar('calendar', year, month);     
-            
       }
-
-      
-
       
 
     };
@@ -297,6 +246,45 @@
           }
         };   
                       
+      },
+
+      addQuickEvent: function(year, month, date) {// быстрый метод добавления события в календарь при клике на дату
+        var div = document.createElement('div'); // создание формы
+        if (month < 10) {
+          month = '0' + month;
+        }
+        if (date < 10) {
+          date = '0' + date;
+        }
+        div.innerHTML = '<button class="created-event-form__close">x</button><form><input type="date" name="event-date" class="created-event-form__event-name" placeholder="ДД.ММ.ГГГГ" value="' + year + '-' + month + '-' + date + '"><input type="text" class="created-event-form__event-name" name="event-title" placeholder="Событие" autofocus><input type="text" name="event-members" class="created-event-form__event-name" placeholder="Имена участников" ><br><br><br><textarea name="event-description" class="created-event-form__event-name" placeholder="Описание"  rows="8"></textarea><input type="button" data-action="addEvent" value="Готово"><input type="button" data-action="deleteEvent" value="Отмена"></form> ';
+
+        div.className = 'created-event-form';
+        div.style.display = 'block';
+        
+        document.body.appendChild(div);
+        showCover();
+        // закрытие формы при нажатии на  крестик
+        var button = document.getElementsByClassName('created-event-form__close')[0];
+        button.onclick = function() {
+          hideCover();
+          document.body.removeChild(div);
+        }
+        // нажатие на кнопку готово/отмена событие
+        div.onclick = function(e) {
+          var target = e.target;
+          var action = target.getAttribute('data-action');
+          if (action) {
+            var eventDate = document.getElementsByClassName('created-event-form__event-name')[0].value;;
+            var eventDateRow = eventDate.split('-');
+            var eventTitle = document.getElementsByClassName('created-event-form__event-name')[1].value;
+            var eventMembers = document.getElementsByClassName('created-event-form__event-name')[2].value;
+            var eventDescription = document.getElementsByClassName('created-event-form__event-name')[3].value;
+            eventObj[action]({id: eventObj.eventList.length, date: eventDateRow , title: eventTitle, members: eventMembers, description: eventDescription});  // action = addEvent / deleteEvent
+            hideCover();
+            document.body.removeChild(div);
+            controller.outputEvent(year, month, (eventObj.eventList.length - 1));          
+          }
+        }
       },
 
       getEvent: function(year, month, id) {// просмотр деталей события
