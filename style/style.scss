@@ -131,6 +131,7 @@ $colorBaseGrey: #f4f4f4;
 	&__todo-list, &__todo-list-prev, &__todo-list-next {
       height: 104px;
 
+
 	}
 	
 	&_strong {
@@ -140,6 +141,13 @@ $colorBaseGrey: #f4f4f4;
 	&_marked {
       background-color:  #ddf0ff;
     }
+
+  &__event {
+    background-color: cornflowerblue;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+  }
 	
 }
 	

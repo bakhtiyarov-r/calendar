@@ -90,6 +90,11 @@
     background-color: #f4f4f4; }
   .calendar_marked {
     background-color: #ddf0ff; }
+  .calendar__event {
+    background-color: cornflowerblue;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px; }
 
 table {
   border-collapse: collapse; }
