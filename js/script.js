@@ -174,12 +174,12 @@
       
         for ( i; i < eventObj.eventList.length; i++) {
           if (eventObj.eventList[i].date[0] == year && eventObj.eventList[i].date[1] == month) { 
-            for (var j = 0; j < calendarDay.length; j++) {           
-              if (calendarDay[j].innerHTML == +eventObj.eventList[i].date[2]) {
+            var j = eventObj.eventList[i].date[2] - 1;           
+              
               calendarDay[j].nextElementSibling.innerHTML += '<a class="calendar__event" href="#" data-id="' + eventObj.eventList[i].id + '">' + eventObj.eventList[i].title + ',<br></a>';
-              calendarDay[j].parentElement.classList.add('calendar_marked'); break;
-              }
-            } 
+              calendarDay[j].parentElement.classList.add('calendar_marked');
+              
+           
           }   
         }
       },
